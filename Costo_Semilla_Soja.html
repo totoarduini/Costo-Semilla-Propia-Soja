@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Costo Semilla Soja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#1E4A12; --verde2:#2f6b1f; --crema:#F2EDE2; --ambar:#C68A2E;
+  --bg:#F2EDE2; --card:#ffffff; --ink:#1d2419; --muted:#5f6a58; --line:#ddd5c4;
+  --inbg:#fffaf0; --pos:#1E4A12; --neg:#a3361f;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151a12; --card:#1f261b; --ink:#ece7dc; --muted:#a5ad9c; --line:#343d2e;
+    --inbg:#262e21; --verde:#7fb46a; --pos:#8fc77a; --neg:#e58b70; --crema:#2a3324;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151a12; --card:#1f261b; --ink:#ece7dc; --muted:#a5ad9c; --line:#343d2e;
+  --inbg:#262e21; --verde:#7fb46a; --pos:#8fc77a; --neg:#e58b70; --crema:#2a3324;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:17px;line-height:1.4}
+header{background:#1E4A12;color:#F2EDE2;padding:18px 16px;border-bottom:4px solid #C68A2E}
+header h1{margin:0;font-size:26px;font-weight:700}
+header p{margin:4px 0 0;opacity:.85;font-size:15px}
+header .hd{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+header .btns{margin-top:0}
+header button{border-color:#F2EDE2;color:#F2EDE2;background:transparent}
+header button:hover{background:#F2EDE2;color:#1E4A12}
+header button.prim{background:#C68A2E;border-color:#C68A2E;color:#fff}
+header button.prim:hover{background:#F2EDE2;border-color:#F2EDE2;color:#1E4A12}
+main{max-width:1280px;margin:0 auto;padding:16px;display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:980px){main{grid-template-columns:380px 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card h2{margin:0 0 12px;font-size:19px;color:var(--verde);border-bottom:2px solid var(--ambar);padding-bottom:6px}
+.card h3{margin:16px 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr 120px 92px;gap:8px;align-items:center;margin-bottom:7px}
+.row label{font-size:16px}
+.row .u{font-size:13px;color:var(--muted)}
+input[type=number]{width:100%;padding:7px 8px;font:600 17px "IBM Plex Mono",monospace;text-align:right;border:1px solid var(--line);border-radius:6px;background:var(--inbg);color:var(--ink)}
+input:focus{outline:2px solid var(--ambar);border-color:var(--ambar)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--verde);border-radius:8px;padding:12px 14px}
+.kpi.amb{border-left-color:var(--ambar)}
+.kpi .l{font-size:14px;color:var(--muted)}
+.kpi .v{font:600 28px "IBM Plex Mono",monospace;margin-top:2px}
+.kpi .s{font-size:13px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:18px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line)}
+th{text-align:right;font-size:15px;color:var(--muted);font-weight:600}
+th:first-child,td:first-child{text-align:left}
+td{text-align:right;font-family:"IBM Plex Mono",monospace}
+td:first-child{font-family:"IBM Plex Sans",sans-serif}
+tr.tot td{font-weight:700;border-top:2px solid var(--verde);border-bottom:none;background:var(--crema)}
+.inp td input{max-width:120px}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+.btns{display:flex;gap:8px;margin-top:12px}
+button{font:600 14px "IBM Plex Sans";padding:8px 12px;border-radius:6px;border:1px solid var(--verde);background:transparent;color:var(--verde);cursor:pointer}
+button:hover{background:var(--verde);color:var(--card)}
+.tbl-wrap{overflow-x:auto}
+.btns{flex-wrap:wrap}
+button.prim{background:var(--verde);color:var(--card)}
+button.prim:hover{background:#C68A2E;border-color:#C68A2E}
+input[type=text]{width:100%;padding:7px 8px;font:500 16px "IBM Plex Sans",sans-serif;border:1px solid var(--line);border-radius:6px;background:var(--inbg);color:var(--ink)}
+table.paso th.grp{text-align:center;color:var(--verde);border-bottom:2px solid var(--ambar)}
+table.paso td:nth-child(3),table.paso thead tr:nth-child(2) th:nth-child(2){border-right:2px solid var(--line)}
+table.paso thead tr:first-child th:nth-child(2){border-right:2px solid var(--line)}
+td.na{color:var(--muted)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <div>
+      <h1>Costo de Semilla de Soja · Propia vs Comprada</h1>
+      <p>SOS Agro · todos los valores en u$s</p>
+    </div>
+    <div class="btns">
+      <button id="bSave">Guardar JSON</button>
+      <button id="bLoad">Cargar JSON</button>
+      <button id="bPdf" class="prim">Exportar PDF</button>
+      <button id="reset">Valores por defecto</button>
+      <input type="file" id="fLoad" accept=".json,application/json" hidden>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="card">
+    <h2>Datos semilla propia</h2>
+    <h3>Grano</h3>
+    <div class="row"><label for="kgTot">kg totales</label><input type="number" id="kgTot" step="100"><span class="u">kg</span></div>
+    <div class="row"><label for="merma">Merma (descarte)</label><input type="number" id="merma" step="1"><span class="u">%</span></div>
+    <div class="row"><label for="precio">Precio bruto soja</label><input type="number" id="precio" step="1"><span class="u">u$s/tn</span></div>
+    <div class="row"><label for="flete">Flete</label><input type="number" id="flete" step="0.5"><span class="u">u$s/tn</span></div>
+    <h3>Acondicionamiento</h3>
+    <div class="row"><label for="vent">Ventilada / clasificada</label><input type="number" id="vent" step="0.5"><span class="u">u$s/tn</span></div>
+    <div class="row"><label for="curado">Curado</label><input type="number" id="curado" step="0.5"><span class="u">u$s/tn</span></div>
+    <div class="row"><label for="bolsa">Bolsa</label><input type="number" id="bolsa" step="0.05"><span class="u">u$s/bolsa</span></div>
+    <div class="row"><label for="manip">Manipuleo (×2 mov.)</label><input type="number" id="manip" step="0.05"><span class="u">u$s/bls por mov.</span></div>
+    <div class="row"><label for="emb">Embolsado y extracción</label><input type="number" id="emb" step="0.5"><span class="u">u$s/tn</span></div>
+    <div class="row"><label for="reg">Regalías</label><input type="number" id="reg" step="0.1"><span class="u">u$s/bolsa</span></div>
+    <h3>Al sembrar · propia</h3>
+    <div class="row"><label for="trat">Tratamiento de semilla propia</label><input type="number" id="trat" step="0.1"><span class="u">u$s/50 kg</span></div>
+    <div class="row"><label for="ht">Hectárea tecnológica</label><input type="number" id="ht" step="0.5"><span class="u">u$s/ha</span></div>
+    <h3>Comprada</h3>
+    <div class="row"><label for="pComp">Precio semilla comprada</label><input type="number" id="pComp" step="0.5"><span class="u">u$s/bolsa 40 kg</span></div>
+    <div class="row"><label for="tratC">Tratamiento de semilla comprada</label><input type="number" id="tratC" step="0.1"><span class="u">u$s/50 kg</span></div>
+    <div class="row"><label for="sup">Superficie</label><input type="number" id="sup" step="10"><span class="u">ha</span></div>
+    <p class="note">Los valores se guardan en este navegador.</p>
+  </section>
+
+  <section>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Propia acondicionada</div><div class="v" id="kBls">–</div><div class="s">u$s/bolsa 40 kg · sin trat. ni HT</div></div>
+      <div class="kpi"><div class="l">Propia costo final</div><div class="v" id="kFin">–</div><div class="s" id="kFinS">u$s/kg</div></div>
+      <div class="kpi amb"><div class="l">Comprada vs propia</div><div class="v" id="kHa">–</div><div class="s" id="kPct">u$s/ha</div></div>
+      <div class="kpi amb"><div class="l">Diferencia total</div><div class="v" id="kTot">–</div><div class="s" id="kSup">u$s</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h2>Comparación por hectárea</h2>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th></th><th>Propia</th><th>Comprada</th></tr></thead>
+        <tbody>
+          <tr class="inp"><td>PG (%)</td><td><input type="number" id="pgP" step="1"></td><td><input type="number" id="pgC" step="1"></td></tr>
+          <tr class="inp"><td>Plantas objetivo (pl/m²)</td><td><input type="number" id="plP" step="1"></td><td><input type="number" id="plC" step="1"></td></tr>
+          <tr class="inp"><td>P1000 (g)</td><td><input type="number" id="p1P" step="1"></td><td><input type="number" id="p1C" step="1"></td></tr>
+          <tr class="inp"><td>Logro (%)</td><td><input type="number" id="loP" step="1"></td><td><input type="number" id="loC" step="1"></td></tr>
+          <tr><td>Semillas/m²</td><td id="smP"></td><td id="smC"></td></tr>
+          <tr class="tot"><td>Densidad (kg/ha)</td><td id="kgP"></td><td id="kgC"></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3>Del costo por kg al costo por hectárea</h3>
+      <div class="tbl-wrap">
+      <table class="paso">
+        <thead>
+          <tr><th rowspan="2">Concepto</th><th colspan="2" class="grp">Propia</th><th colspan="2" class="grp">Comprada</th></tr>
+          <tr><th>u$s/kg</th><th>u$s/ha</th><th>u$s/kg</th><th>u$s/ha</th></tr>
+        </thead>
+        <tbody id="tPaso"></tbody>
+      </table>
+      </div>
+      <p class="note" id="nPaso"></p>
+      <div class="tbl-wrap">
+      <table>
+        <tbody>
+          <tr><td>Diferencia comprada − propia</td><td id="difHa"></td><td id="difPct"></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3>Comprada a igual costo por ha que la propia</h3>
+      <div class="tbl-wrap">
+      <table>
+        <tbody>
+          <tr><td>kg/ha para igual costo</td><td id="eqKg"></td></tr>
+          <tr><td>Semillas/m²</td><td id="eqSm"></td></tr>
+          <tr><td>Plantas/m² logradas</td><td id="eqPl"></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Costo semilla propia</h2>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Concepto</th><th>u$s total</th><th>u$s/kg</th><th>u$s/bolsa</th><th>%</th></tr></thead>
+        <tbody id="tCosto"></tbody>
+      </table>
+      </div>
+      <p class="note" id="nCosto"></p>
+    </div>
+  </section>
+</main>
+<script>
+const DEF={kgTot:1000,merma:10,precio:320,flete:40,vent:55,curado:0,bolsa:0,manip:0,emb:10,reg:0,
+  trat:3.5,ht:21,pComp:42,tratC:0,sup:600,pgP:90,pgC:90,plP:25,plC:25,p1P:160,p1C:160,loP:75,loC:75};
+const KEY='costo_semilla_soja_v4';
+const ids=Object.keys(DEF);
+const $=id=>document.getElementById(id);
+function load(){let s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  ids.forEach(k=>{$(k).value=(s[k]!==undefined?s[k]:DEF[k])});}
+function save(){const o={};ids.forEach(k=>o[k]=$(k).value);try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+const v=k=>{const x=parseFloat(String($(k).value).replace(',','.'));return isFinite(x)?x:0};
+const f=(x,d=2)=>isFinite(x)?x.toLocaleString('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d}):'–';
+const pct=x=>isFinite(x)?(x*100).toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%':'–';
+const sgn=(x,d)=>(x>0?'+':'')+f(x,d);
+
+function calc(){
+  const kgTot=v('kgTot'), merma=v('merma')/100, tnTot=kgTot/1000;
+  const kgNet=kgTot*(1-merma), bolsas=kgNet/40, tnNet=kgNet/1000;
+  const precioNeto=v('precio')-v('flete');
+  const items=[
+    ['Semilla (precio neto de flete)', precioNeto*tnNet],
+    ['Ventilada / clasificada', v('vent')*tnTot],
+    ['Curado', v('curado')*tnTot],
+    ['Bolsas', v('bolsa')*bolsas],
+    ['Manipuleo', v('manip')*2*bolsas],
+    ['Embolsado y extracción', v('emb')*tnTot],
+    ['Regalías', v('reg')*bolsas],
+  ];
+  const tot=items.reduce((a,b)=>a+b[1],0);
+  const ukg=kgNet>0?tot/kgNet:NaN, ubls=ukg*40, utn=ukg*1000;
+  const inc=(utn-v('precio'))/v('precio');
+  $('tCosto').innerHTML=items.map(([n,x])=>`<tr><td>${n}</td><td>${f(x,0)}</td><td>${f(x/kgNet,3)}</td><td>${f(x/kgNet*40,2)}</td><td>${pct(x/tot)}</td></tr>`).join('')+
+    `<tr class="tot"><td>Total</td><td>${f(tot,0)}</td><td>${f(ukg,3)}</td><td>${f(ubls,2)}</td><td>100,0%</td></tr>`;
+  $('nCosto').textContent=`${f(kgTot,0)} kg totales → ${f(kgNet,0)} kg netos = ${f(bolsas,1)} bolsas de 40 kg. Precio neto soja: ${f(precioNeto,1)} u$s/tn. Semilla acondicionada: ${f(utn,1)} u$s/tn (${sgn(inc*100,1)}% s/ precio bruto).`;
+
+  // Por ha
+  const side=(pg,pl,p1,lo)=>{const sm=pl/(pg*lo);return{sm,kg:sm*p1*10/1000}};
+  const P=side(v('pgP')/100,v('plP'),v('p1P'),v('loP')/100);
+  const C=side(v('pgC')/100,v('plC'),v('p1C'),v('loC')/100);
+  const haP=P.kg/40*ubls+v('trat')/50*P.kg+v('ht');
+  const haC=C.kg/40*v('pComp')+v('tratC')/50*C.kg;
+  const ukP=haP/P.kg, ukC=haC/C.kg;
+  const dif=haC-haP, difPct=dif/haP;
+  $('smP').textContent=f(P.sm,1);$('smC').textContent=f(C.sm,1);
+  $('kgP').textContent=f(P.kg,1);$('kgC').textContent=f(C.kg,1);
+  // Paso a paso: u$s/kg y u$s/ha
+  const sem=ukg, tr=v('trat')/50, trC=v('tratC')/50, htKg=P.kg>0?v('ht')/P.kg:NaN, comp=v('pComp')/40;
+  const cell=(kg,ha,show=true)=>show?`<td>${f(kg,3)}</td><td>${f(ha,2)}</td>`:`<td class="na">—</td><td class="na">—</td>`;
+  $('tPaso').innerHTML=
+    `<tr><td>Semilla (acondicionada / precio bolsa)</td>${cell(sem,sem*P.kg)}${cell(comp,comp*C.kg)}</tr>`+
+    `<tr><td>+ Tratamiento de semilla</td>${cell(tr,tr*P.kg)}${cell(trC,trC*C.kg,trC>0)}</tr>`+
+    `<tr><td>+ Hectárea tecnológica</td>${cell(htKg,v('ht'))}${cell(0,0,false)}</tr>`+
+    `<tr class="tot"><td>= Costo final</td>${cell(ukP,haP)}${cell(ukC,haC)}</tr>`;
+  $('nPaso').textContent=`u$s/ha = u$s/kg × densidad (propia ${f(P.kg,1)} kg/ha · comprada ${f(C.kg,1)} kg/ha). `+
+    `Tratamiento propia: ${f(v('trat'),2)} u$s/50 kg ÷ 50 = ${f(tr,3)} u$s/kg`+(trC>0?` · comprada: ${f(v('tratC'),2)} u$s/50 kg ÷ 50 = ${f(trC,3)} u$s/kg`:'')+'. '+
+    `Hectárea tecnológica: ${f(v('ht'),2)} u$s/ha ÷ ${f(P.kg,1)} kg/ha = ${f(htKg,3)} u$s/kg.`;
+  $('difHa').innerHTML=`<span class="${dif>0?'neg':'pos'}">${sgn(dif,2)} u$s/ha</span>`;
+  $('difPct').innerHTML=`<span class="${dif>0?'neg':'pos'}">${sgn(difPct*100,1)}%</span>`;
+  window.R={kgTot,merma,kgNet,bolsas,precioNeto,items,tot,ukg,ubls,utn,inc,P,C,haP,haC,ukP,ukC,dif,difPct,sem,tr,trC,htKg,comp};
+  const eqKg=haP/ukC, eqSm=eqKg/(v('p1C')*10)*1000, eqPl=eqSm*(v('loC')/100)*(v('pgC')/100);
+  Object.assign(window.R,{eqKg,eqSm,eqPl});$('eqKg').textContent=f(eqKg,1);$('eqSm').textContent=f(eqSm,1);$('eqPl').textContent=f(eqPl,1);
+
+  $('kBls').textContent=f(ubls,2);
+  $('kFin').textContent=f(ukP,3);
+  $('kFinS').textContent=`u$s/kg · con trat. y HT (acondicionada ${f(ukg,3)})`;
+  $('kHa').innerHTML=`<span class="${dif>0?'neg':'pos'}">${sgn(dif,2)}</span>`;
+  $('kPct').textContent=`u$s/ha · comprada ${sgn(difPct*100,1)}% vs propia`;
+  $('kTot').innerHTML=`<span class="${dif>0?'neg':'pos'}">${sgn(dif*v('sup'),0)}</span>`;
+  $('kSup').textContent=`u$s en ${f(v('sup'),0)} ha`;
+}
+ids.forEach(k=>$(k).addEventListener('input',()=>{calc();save()}));
+$('reset').addEventListener('click',()=>{try{localStorage.removeItem(KEY)}catch(e){};load();calc()});
+
+function datos(){const o={};ids.forEach(k=>o[k]=v(k));return o}
+const hoy=()=>new Date().toLocaleDateString('es-AR');
+const slug=()=>'Costo_Semilla_Soja_'+new Date().toISOString().slice(0,10);
+$('bSave').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify({app:'Costo_Semilla_Soja',version:2,fecha:new Date().toISOString(),datos:datos()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=slug()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+$('bLoad').addEventListener('click',()=>$('fLoad').click());
+$('fLoad').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  file.text().then(t=>{
+    const j=JSON.parse(t);const d=j.datos||j;
+    let n=0;ids.forEach(k=>{if(d[k]!==undefined){$(k).value=d[k];n++}});
+    if(!n)throw new Error('sin datos reconocibles');
+    calc();save();
+  }).catch(err=>alert('No se pudo leer el JSON: '+err.message)).finally(()=>{e.target.value=''});
+});
+$('bPdf').addEventListener('click',()=>{
+  if(!window.jspdf){alert('No se pudo cargar la librería de PDF (requiere conexión a internet).');return}
+  calc();const r=window.R;const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});const W=doc.internal.pageSize.getWidth();
+  const VERDE=[30,74,18],AMBAR=[198,138,46],CREMA=[242,237,226];
+  doc.setFillColor(...VERDE);doc.rect(0,0,W,24,'F');doc.setFillColor(...AMBAR);doc.rect(0,24,W,1.5,'F');
+  doc.setTextColor(242,237,226);doc.setFont('helvetica','bold');doc.setFontSize(16);
+  doc.text('Costo de Semilla de Soja · Propia vs Comprada',12,11);
+  doc.setFont('helvetica','normal');doc.setFontSize(10);
+  doc.text(`SOS Agro · ${hoy()} · valores en u$s`,12,18);
+  doc.setTextColor(29,36,25);
+  const base={theme:'grid',styles:{fontSize:9.5,cellPadding:1.6,lineColor:[221,213,196],lineWidth:.2},
+    headStyles:{fillColor:VERDE,textColor:[242,237,226],fontStyle:'bold',halign:'right'},
+    columnStyles:{0:{halign:'left'}},bodyStyles:{halign:'right'},margin:{left:12,right:12}};
+  const totRow=(data)=>{if(data.section==='head'&&data.column.index===0)data.cell.styles.halign='left';if(data.section==='body'&&data.row.raw&&data.row.raw._tot){data.cell.styles.fontStyle='bold';data.cell.styles.fillColor=CREMA}};
+  const T=(title,head,body,opt={})=>{
+    let y=(doc.lastAutoTable?doc.lastAutoTable.finalY:30)+8;
+    if(y>265){doc.addPage();y=16}
+    doc.setFont('helvetica','bold');doc.setFontSize(11.5);doc.setTextColor(...VERDE);doc.text(title,12,y);doc.setTextColor(29,36,25);
+    doc.autoTable(Object.assign({},base,{startY:y+2,head:[head],body,didParseCell:totRow},opt));
+  };
+  const tot=a=>{a._tot=true;return a};
+  // Resumen
+  const sg=(x,d)=>(x>0?'+':'')+f(x,d);
+  T('Resumen',['Indicador','Valor'],[
+    ['Semilla propia acondicionada (sin trat. ni HT)',f(r.ubls,2)+' u$s/bolsa · '+f(r.ukg,3)+' u$s/kg'],
+    ['Semilla propia acondicionada',f(r.utn,1)+' u$s/tn ('+sg(r.inc*100,1)+'% s/ precio bruto)'],
+    ['Semilla propia costo final (con trat. y HT)',f(r.ukP,3)+' u$s/kg · '+f(r.haP,2)+' u$s/ha'],
+    ['Semilla comprada final (con trat.)',f(r.ukC,3)+' u$s/kg · '+f(r.haC,2)+' u$s/ha'],
+    tot(['Diferencia comprada - propia',sg(r.dif,2)+' u$s/ha ('+sg(r.difPct*100,1)+'%) · '+sg(r.dif*v('sup'),0)+' u$s en '+f(v('sup'),0)+' ha']),
+  ],{columnStyles:{0:{halign:'left',cellWidth:95}}});
+  // Datos
+  T('Datos cargados',['Dato','Valor','Unidad'],[
+    ['kg totales',f(v('kgTot'),0),'kg'],['Merma (descarte)',f(v('merma'),1),'%'],
+    ['Precio bruto soja',f(v('precio'),1),'u$s/tn'],['Flete',f(v('flete'),1),'u$s/tn'],
+    ['Ventilada / clasificada',f(v('vent'),1),'u$s/tn'],['Curado',f(v('curado'),1),'u$s/tn'],
+    ['Bolsa',f(v('bolsa'),2),'u$s/bolsa'],['Manipuleo (×2 mov.)',f(v('manip'),2),'u$s/bls por mov.'],
+    ['Embolsado y extracción',f(v('emb'),1),'u$s/tn'],['Regalías',f(v('reg'),2),'u$s/bolsa'],
+    ['Tratamiento de semilla propia',f(v('trat'),2),'u$s/50 kg'],['Hectárea tecnológica',f(v('ht'),2),'u$s/ha'],
+    ['Precio semilla comprada',f(v('pComp'),2),'u$s/bolsa 40 kg'],['Tratamiento de semilla comprada',f(v('tratC'),2),'u$s/50 kg'],['Superficie',f(v('sup'),0),'ha'],
+  ],{columnStyles:{0:{halign:'left'},2:{halign:'left'}},didParseCell:d=>{totRow(d);if(d.section==='head'&&d.column.index===2)d.cell.styles.halign='left'}});
+  // Costo propia
+  T('Costo semilla propia acondicionada',['Concepto','u$s total','u$s/kg','u$s/bolsa','%'],
+    r.items.map(([n,x])=>[n,f(x,0),f(x/r.kgNet,3),f(x/r.kgNet*40,2),(x/r.tot*100).toFixed(1).replace('.',',')+'%'])
+    .concat([tot(['Total',f(r.tot,0),f(r.ukg,3),f(r.ubls,2),'100,0%'])]));
+  doc.setFontSize(8.5);doc.setFont('helvetica','normal');doc.setTextColor(95,106,88);
+  doc.text(`${f(r.kgTot,0)} kg totales y ${f(r.kgNet,0)} kg netos = ${f(r.bolsas,1)} bolsas de 40 kg. Precio neto soja (bruto - flete): ${f(r.precioNeto,1)} u$s/tn.`,12,doc.lastAutoTable.finalY+4);doc.lastAutoTable.finalY+=4;
+  // Densidad
+  T('Densidad de siembra',['','Propia','Comprada'],[
+    ['PG (%)',f(v('pgP'),0),f(v('pgC'),0)],['Plantas objetivo (pl/m2)',f(v('plP'),0),f(v('plC'),0)],
+    ['P1000 (g)',f(v('p1P'),0),f(v('p1C'),0)],['Logro (%)',f(v('loP'),0),f(v('loC'),0)],
+    ['Semillas/m2',f(r.P.sm,1),f(r.C.sm,1)],tot(['Densidad (kg/ha)',f(r.P.kg,1),f(r.C.kg,1)])]);
+  // Paso a paso
+  T('Del costo por kg al costo por hectárea',['Concepto','Propia u$s/kg','Propia u$s/ha','Comprada u$s/kg','Comprada u$s/ha'],[
+    ['Semilla (acondicionada / precio bolsa)',f(r.sem,3),f(r.sem*r.P.kg,2),f(r.comp,3),f(r.comp*r.C.kg,2)],
+    ['+ Tratamiento de semilla',f(r.tr,3),f(r.tr*r.P.kg,2),r.trC>0?f(r.trC,3):'—',r.trC>0?f(r.trC*r.C.kg,2):'—'],
+    ['+ Hectárea tecnológica',f(r.htKg,3),f(v('ht'),2),'—','—'],
+    tot(['= Costo final',f(r.ukP,3),f(r.haP,2),f(r.ukC,3),f(r.haC,2)])]);
+  let y=doc.lastAutoTable.finalY+4;doc.setFontSize(8.5);doc.setFont('helvetica','normal');doc.setTextColor(95,106,88);
+  const nota=doc.splitTextToSize(`u$s/ha = u$s/kg × densidad. Tratamiento propia: ${f(v('trat'),2)} u$s/50 kg ÷ 50 = ${f(r.tr,3)} u$s/kg${r.trC>0?` · comprada: ${f(v('tratC'),2)} u$s/50 kg ÷ 50 = ${f(r.trC,3)} u$s/kg`:''}. Hectárea tecnológica: ${f(v('ht'),2)} u$s/ha ÷ ${f(r.P.kg,1)} kg/ha = ${f(r.htKg,3)} u$s/kg.`,W-24);doc.text(nota,12,y);doc.lastAutoTable.finalY+=4*nota.length;
+  // Igual costo
+  T('Comprada a igual costo por ha que la propia',['Indicador','Valor'],[
+    ['kg/ha para igual costo',f(r.eqKg,1)],['Semillas/m2',f(r.eqSm,1)],['Plantas/m2 logradas',f(r.eqPl,1)]]);
+  const n=doc.getNumberOfPages();
+  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(150);doc.text(`SOS Agro · Costo semilla soja · pág. ${i}/${n}`,W-12,290,{align:'right'})}
+  doc.save(slug()+'.pdf');
+});
+load();calc();
+</script>
+</body>
+</html>
